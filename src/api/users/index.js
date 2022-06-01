@@ -111,6 +111,12 @@ usersRouter.post("/:userId/purchaseHistory", async (req, res, next) => {
 
 usersRouter.get("/:userId/purchaseHistory", async (req, res, next) => {
   try {
+    const user = await UsersModel.findById(req.params.userId)
+    if (user) {
+      res.send(user.purchaseHistory)
+    } else {
+      next(createError(404, `User with id ${req.params.userId} not found!`))
+    }
   } catch (error) {
     next(error)
   }
