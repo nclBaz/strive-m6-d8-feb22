@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import listEndpoints from "express-list-endpoints"
 import usersRouter from "./api/users/index.js"
+import booksRouter from "./api/books/index.js"
 import { badRequestHandler, genericErrorHandler, notFoundHandler } from "./errorHandlers.js"
 
 const server = express()
@@ -16,6 +17,7 @@ server.use(express.json())
 // ******************************************************* ENDPOINTS ***********************************************
 
 server.use("/users", usersRouter)
+server.use("/books", booksRouter)
 
 // ***************************************************** ERROR HANDLERS ********************************************
 
