@@ -124,6 +124,17 @@ usersRouter.get("/:userId/purchaseHistory", async (req, res, next) => {
 
 usersRouter.get("/:userId/purchaseHistory/:productId", async (req, res, next) => {
   try {
+    const user = await UsersModel.findById(req.params.userId)
+    if (user) {
+      const purchasedBook = user.purchaseHistory.find(book => req.params.productId === book._id.toString()) // You CANNOT compare a string (req.params.productId) with an ObjectId (book._id) --> we shall convert ObjectId into a string
+      if (purchasedBook) {
+        res.send(purchasedBook)
+      } else {
+        next(createError(404, `Book with id ${req.params.productId} not found!`))
+      }
+    } else {
+      next(createError(404, `User with id ${req.params.userId} not found!`))
+    }
   } catch (error) {
     next(error)
   }
